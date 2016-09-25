@@ -1,0 +1,56 @@
+<assembly>
+  <id>assembly</id>
+  <formats>
+    <format>jar</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <baseDirectory>${project.name}</baseDirectory>
+  <fileSets>
+    <fileSet>
+      <directory>${project.basedir}</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>README*</include>
+        <include>LICENSE*</include>
+        <include>NOTICE*</include>
+      </includes>
+    </fileSet>
+    <!-- <fileSet>
+      <directory>${project.basedir}</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>anabot.sh</include>
+        <include>pause.sh</include>
+        <include>shutdown.sh</include>
+        <include>migration-201404.sh</include>
+        <include>migration-201405.sh</include>
+      </includes>
+      <fileMode>755</fileMode>
+    </fileSet> -->
+    <!-- <fileSet>
+      <directory>${project.build.directory}/lib</directory>
+      <outputDirectory>lib</outputDirectory>
+      <includes>
+      </includes>
+    </fileSet> -->
+  </fileSets>
+  <dependencySets>
+    <dependencySet>
+      <includes>
+       
+        <include>${project.groupId}:SparkEngineCore</include>
+        <include>org.apache.spark:spark-streaming-kafka_${scala.major.version}</include>
+        <include>org.apache.spark:spark-streaming-mqtt_${scala.major.version}</include>
+        <include>org.apache.kafka:kafka_2.10</include>
+        <include>org.apache.kafka:kafka-clients</include>
+        <include>com.yammer.metrics:metrics-core</include>
+        <include>com.101tec:zkclient</include>
+        <include>net.sf.jopt-simple:jopt-simple</include>
+        <include>org.eclipse.paho:org.eclipse.paho.client.mqttv3</include>
+        
+        <include>com.google.guava:guava</include>
+      </includes>
+      <unpack>true</unpack>
+    </dependencySet>
+  </dependencySets>
+</assembly>
