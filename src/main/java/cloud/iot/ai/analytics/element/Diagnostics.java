@@ -11,7 +11,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import cloud.iot.ai.analytics.util.XMLUtils;
+import cloud.iot.ai.analytics.xml.XMLUtils;
 
 public class Diagnostics extends SchematronElement {
 	private static final long serialVersionUID = 7452439072930166486L;

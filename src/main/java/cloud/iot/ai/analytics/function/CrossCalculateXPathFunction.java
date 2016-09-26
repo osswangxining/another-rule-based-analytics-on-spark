@@ -15,7 +15,7 @@ import javax.xml.xpath.XPathFunctionException;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import cloud.iot.ai.analytics.util.XPathUtils;
+import cloud.iot.ai.analytics.xml.XPathUtils;
 
 
 public class CrossCalculateXPathFunction implements XPathFunction {

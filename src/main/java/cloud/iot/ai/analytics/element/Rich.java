@@ -2,7 +2,7 @@ package cloud.iot.ai.analytics.element;
 
 import org.w3c.dom.Element;
 
-import cloud.iot.ai.analytics.util.XMLUtils;
+import cloud.iot.ai.analytics.xml.XMLUtils;
 
 public class Rich extends SchematronElement {
 	private static final long serialVersionUID = 4532737988316699122L;

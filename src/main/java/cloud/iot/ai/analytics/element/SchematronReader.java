@@ -25,8 +25,8 @@ import org.w3c.dom.NodeList;
 import cloud.iot.ai.analytics.util.QNameUtils;
 import cloud.iot.ai.analytics.util.StringUtils;
 import cloud.iot.ai.analytics.util.URLUtils;
-import cloud.iot.ai.analytics.util.XMLUtils;
-import cloud.iot.ai.analytics.util.XPathUtils;
+import cloud.iot.ai.analytics.xml.XMLUtils;
+import cloud.iot.ai.analytics.xml.XPathUtils;
 
 public class SchematronReader {
 	private static Logger logger = Logger.getLogger(SchematronReader.class.getName());

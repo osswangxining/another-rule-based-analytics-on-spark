@@ -9,7 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import cloud.iot.ai.analytics.util.XMLUtils;
+import cloud.iot.ai.analytics.xml.XMLUtils;
 
 public class Active extends SchematronElement {
 	private static final long serialVersionUID = 4138745637595190028L;

@@ -1,4 +1,4 @@
-package cloud.iot.ai.analytics.util;
+package cloud.iot.ai.analytics.xml;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -14,6 +14,8 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import cloud.iot.ai.analytics.util.StringUtils;
+
 public class DOM2Writer {
 	private static Logger logger = Logger.getLogger(DOM2Writer.class.getName());
 	private static final String CLASS_NAME = "DOM2Writer";
@@ -21,10 +23,6 @@ public class DOM2Writer {
 	private static final String XML10_DECL_END = "\"?>";
 	private static final String XML10_DECL_NO_ENCODING = "<?xml version=\"1.0\"?>";
 
-	static {
-		if (logger.isLoggable(Level.FINEST))
-			logger.logp(Level.FINEST, "", "", "$URL$ $Rev$");
-	}
 
 	public static String serializeAsString(Element element, boolean omitXMLDeclaration, String encoding) {
 		String METHOD_NAME = "serializeAsString";

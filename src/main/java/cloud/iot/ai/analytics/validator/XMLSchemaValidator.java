@@ -1,4 +1,4 @@
-package cloud.iot.ai.analytics.util;
+package cloud.iot.ai.analytics.validator;
 
 import java.io.IOException;
 import java.io.InputStream;

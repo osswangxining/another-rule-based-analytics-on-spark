@@ -8,7 +8,7 @@ import java.io.Writer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import cloud.iot.ai.analytics.util.DOM2Writer;
+import cloud.iot.ai.analytics.xml.DOM2Writer;
 
 public class SchematronWriter {
 	private static Logger logger = Logger.getLogger(SchematronWriter.class.getName());

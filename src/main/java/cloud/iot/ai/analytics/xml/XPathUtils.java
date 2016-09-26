@@ -1,4 +1,4 @@
-package cloud.iot.ai.analytics.util;
+package cloud.iot.ai.analytics.xml;
 
 import java.util.Stack;
 
@@ -10,6 +10,8 @@ import javax.xml.xpath.XPathExpressionException;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+
+import cloud.iot.ai.analytics.util.QNameUtils;
 
 public class XPathUtils {
 

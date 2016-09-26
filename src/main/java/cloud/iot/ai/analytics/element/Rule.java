@@ -16,7 +16,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import cloud.iot.ai.analytics.util.QNameUtils;
-import cloud.iot.ai.analytics.util.XMLUtils;
+import cloud.iot.ai.analytics.xml.XMLUtils;
 
 public class Rule extends ContextElement {
 	private static final long serialVersionUID = 6156895700438295580L;

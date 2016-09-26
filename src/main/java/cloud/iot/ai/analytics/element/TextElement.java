@@ -11,7 +11,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 
-import cloud.iot.ai.analytics.util.DOM2Writer;
+import cloud.iot.ai.analytics.xml.DOM2Writer;
 
 public class TextElement extends SchematronElement {
 	private static final long serialVersionUID = 2407173275003966164L;

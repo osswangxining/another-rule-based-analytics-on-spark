@@ -15,7 +15,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import cloud.iot.ai.analytics.util.QNameUtils;
-import cloud.iot.ai.analytics.util.XMLUtils;
+import cloud.iot.ai.analytics.xml.XMLUtils;
 
 public class Pattern extends ContextElement {
 	private static final long serialVersionUID = -2246292159992700962L;

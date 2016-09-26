@@ -14,9 +14,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import cloud.iot.ai.analytics.util.DOM2Writer;
 import cloud.iot.ai.analytics.util.QNameUtils;
-import cloud.iot.ai.analytics.util.XMLUtils;
+import cloud.iot.ai.analytics.xml.DOM2Writer;
+import cloud.iot.ai.analytics.xml.XMLUtils;
 
 public class Schema extends ContextElement {
 	private static final long serialVersionUID = -5618454545113936771L;
@@ -134,6 +134,9 @@ public class Schema extends ContextElement {
 				schemaElement.setAttribute("id", getId());
 			if (getName() != null) {
 				schemaElement.setAttribute("name", getName());
+			}
+			if(getDefaultPhase() != null) {
+				schemaElement.setAttribute("defaultPhase", getDefaultPhase());
 			}
 
 			if (this.title != null) {

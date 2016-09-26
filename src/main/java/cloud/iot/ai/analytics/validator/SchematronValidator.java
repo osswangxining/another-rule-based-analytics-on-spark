@@ -39,7 +39,7 @@ import cloud.iot.ai.analytics.element.ValueOfElement;
 import cloud.iot.ai.analytics.function.FunctionContext;
 import cloud.iot.ai.analytics.output.Formatter;
 import cloud.iot.ai.analytics.output.TextOutputFormatter;
-import cloud.iot.ai.analytics.util.XPathUtils;
+import cloud.iot.ai.analytics.xml.XPathUtils;
 
 public class SchematronValidator {
 	private static Logger logger = Logger.getLogger(SchematronValidator.class.getName());

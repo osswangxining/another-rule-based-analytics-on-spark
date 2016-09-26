@@ -1,4 +1,4 @@
-package cloud.iot.ai.analytics.util;
+package cloud.iot.ai.analytics.xml;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -21,6 +21,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
+
+import cloud.iot.ai.analytics.util.QNameUtils;
 
 public class XMLUtils {
 	private static Logger logger = Logger.getLogger(XMLUtils.class.getName());

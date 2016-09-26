@@ -22,8 +22,7 @@
                 <sch:rule context="/house">
                    <sch:assert test="count(wall) &lt; 4 ">A house should have 1-4 walls</sch:assert>
                    <sch:report test="not(roof)">The house is incomplete, it still needs a roof</sch:report>
-                   <sch:assert test="builder">An incomplete house must have
-                   a builder assigned to it</sch:assert>
+                   <sch:assert test="builder">An incomplete house must have a builder assigned to it</sch:assert>
                    <sch:assert test="not(owner)">An incomplete house cannot have an owner</sch:assert>
                 </sch:rule>
 
@@ -35,8 +34,7 @@
                 <sch:rule context="/house">
                    <sch:assert test="count(wall) = 4">A house should have 4 walls</sch:assert>
                    <sch:report test="roof">The house is incomplete, it still needs a roof</sch:report>
-                   <sch:assert test="owner">An incomplete house must have
-                   an owner</sch:assert>
+                   <sch:assert test="owner">An incomplete house must have an owner</sch:assert>
                    <sch:assert test="not(builder)">An incomplete house doesn't need a builder</sch:assert>
                 </sch:rule>
 
