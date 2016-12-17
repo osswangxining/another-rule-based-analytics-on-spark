@@ -1,4 +1,7 @@
 package cloud.iot.ai.analytics.validator;
+=======
+package cloud.iot.ai.analytics.util;
+>>>>>>> branch 'master' of https://github.com/osswangxining/cloud-iot-analytics-engine.git
 
 import java.io.IOException;
 import java.io.InputStream;
