@@ -1,17 +1,8 @@
 package cloud.iot.ai.analytics.streaming;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
-
-import cloud.iot.ai.analytics.element.Schema;
-import cloud.iot.ai.analytics.element.SchematronReader;
-import cloud.iot.ai.analytics.factory.SchematronFactory;
 
 public class AnalyticsEngineManager implements Serializable {
 
@@ -22,15 +13,9 @@ public class AnalyticsEngineManager implements Serializable {
 
 	private AnalyticsEngineManager engine = null;
 
-	private static Map<String, Schema> rules = new ConcurrentHashMap<String, Schema>();
+	private static Map<String, String> rules = new ConcurrentHashMap<String, String>();
 
-	public Schema getRule(String id) {
-		for (Iterator<Entry<String, Schema>> iterator = rules.entrySet().iterator(); iterator.hasNext();) {
-			Entry<String, Schema> entry = iterator.next();
-			String key = entry.getKey();
-			Schema value = entry.getValue();
-			System.out.println("key:" + key + ",value:" + value);
-		}
+	public String getRule(String id) {
 		return rules.get(id);
 	}
 
@@ -40,16 +25,7 @@ public class AnalyticsEngineManager implements Serializable {
 		if (id == null || rule == null) {
 			return;
 		}
-		SchematronReader reader = SchematronFactory.INSTANCE.newSchematronReader();
-
-		try {
-			Schema schema = reader.readSchematron(null, new ByteArrayInputStream(rule.getBytes("UTF-8")));
-			rules.put(id, schema);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		rules.put(id, rule);
 
 	}
 
