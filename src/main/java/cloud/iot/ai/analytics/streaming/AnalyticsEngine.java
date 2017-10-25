@@ -1,6 +1,7 @@
 package cloud.iot.ai.analytics.streaming;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -16,6 +17,14 @@ import org.apache.spark.streaming.api.java.JavaPairInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.apache.spark.streaming.kafka.KafkaUtils;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import cloud.iot.ai.analytics.Validator;
+import cloud.iot.ai.analytics.kafka.KafkaProducer;
+import kafka.producer.KeyedMessage;
 import kafka.serializer.StringDecoder;
 import scala.Tuple2;
 
@@ -54,13 +63,31 @@ public class AnalyticsEngine {
 				StringDecoder.class, StringDecoder.class, kafkaParams, topicsSet);
 		System.out.println("Listening kafka messages....");
 		// Get the data
+		final JsonParser parser = new JsonParser();
 		messages.foreachRDD(new VoidFunction<JavaPairRDD<String, String>>() {
 
 			@Override
 			public void call(JavaPairRDD<String, String> v1) throws Exception {
 				Map<String, String> events = v1.collectAsMap();
-				events.forEach((k, v) -> System.out.println(k + ":" + v));
+
 				System.out.println("New RDD call, size=" + events.size());
+				String condition = "@.d.temp>=70 || @.d.temp<=60";
+				// System.out.println("condition:" + condition);
+				events.forEach((k, v) -> {
+					boolean valid = Validator.getInstance().execute(v, condition);
+					if (valid) {
+						System.out.println(k + ":" + v);
+						JsonObject event = (JsonObject) parser.parse(v);
+						long time2 = new Date().getTime();
+						String key = "" + time2;
+						long gap = time2 - event.getAsJsonObject("d").getAsJsonPrimitive("timestamp").getAsLong();
+						String message = "report[" + gap + "]:" + v;
+						String topic = "rule.output";
+						KeyedMessage<String, String> keyedMessage = new KeyedMessage<String, String>(topic, key,
+								message);
+						KafkaProducer.getInstance(brokers).getProducer().send(keyedMessage);
+					}
+				});
 
 			}
 		});
