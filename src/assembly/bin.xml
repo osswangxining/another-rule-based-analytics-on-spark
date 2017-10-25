@@ -47,8 +47,9 @@
         <include>com.101tec:zkclient</include>
         <include>net.sf.jopt-simple:jopt-simple</include>
         <include>org.eclipse.paho:org.eclipse.paho.client.mqttv3</include>
-        
         <include>com.google.guava:guava</include>
+        <include>com.google.code.gson:gson</include>
+        <include>org.apache.commons:commons-lang3</include>
       </includes>
       <unpack>true</unpack>
     </dependencySet>
