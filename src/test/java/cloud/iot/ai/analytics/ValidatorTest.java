@@ -3,20 +3,15 @@ package cloud.iot.ai.analytics;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import javax.xml.xpath.XPathExpressionException;
-
 import org.json.JSONObject;
 
-public class Validator {
+public class ValidatorTest {
 
 	public static void main(String[] args) {
 
 		try {
 			run();
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (XPathExpressionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -26,7 +21,7 @@ public class Validator {
 
 	}
 
-	public static void run() throws UnsupportedEncodingException, IOException, XPathExpressionException {
+	public static void run() throws UnsupportedEncodingException, IOException {
 
 		// Document doc = XMLUtils.read(Validator.class.getResourceAsStream("/1.xml"));
 		// if (doc == null) {
