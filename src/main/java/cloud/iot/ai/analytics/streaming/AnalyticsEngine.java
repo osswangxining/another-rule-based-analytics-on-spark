@@ -16,6 +16,8 @@ import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaPairInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.apache.spark.streaming.kafka.KafkaUtils;
+import org.apache.spark.streaming.kafka.OffsetRange;
+import org.apache.spark.streaming.kafka.HasOffsetRanges;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -64,6 +66,17 @@ public class AnalyticsEngine {
 		System.out.println("Listening kafka messages....");
 		// Get the data
 		final JsonParser parser = new JsonParser();
+		messages.foreachRDD(rdd -> {
+			OffsetRange[] offsets = ((HasOffsetRanges) rdd.rdd()).offsetRanges();
+			Arrays.asList(offsets).forEach(offset -> {
+				String topic = offset.topic();
+				int partition = offset.partition();
+				long fromOffset = offset.fromOffset();
+				long untilOffset = offset.untilOffset();
+				System.out.println("topic:" + topic + ",partition:" + partition + ",fromOffset:" + fromOffset
+						+ ",untilOffset:" + untilOffset);
+			});
+		});
 		messages.foreachRDD(new VoidFunction<JavaPairRDD<String, String>>() {
 
 			@Override
@@ -78,7 +91,7 @@ public class AnalyticsEngine {
 					if (valid) {
 						System.out.println(k + ":" + v);
 						JsonObject event = (JsonObject) parser.parse(v);
-						long time2 = new Date().getTime();
+						long time2 = new Date().getTime() / 1000;
 						String key = "" + time2;
 						long gap = time2 - event.getAsJsonObject("d").getAsJsonPrimitive("timestamp").getAsLong();
 						String message = "report[" + gap + "]:" + v;
