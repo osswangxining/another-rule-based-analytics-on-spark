@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,19 +14,20 @@ import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.api.java.JavaDStream;
+import org.apache.spark.streaming.api.java.JavaInputDStream;
 import org.apache.spark.streaming.api.java.JavaPairInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
+import org.apache.spark.streaming.kafka.HasOffsetRanges;
 import org.apache.spark.streaming.kafka.KafkaUtils;
 import org.apache.spark.streaming.kafka.OffsetRange;
-import org.apache.spark.streaming.kafka.HasOffsetRanges;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import cloud.iot.ai.analytics.Validator;
 import cloud.iot.ai.analytics.kafka.KafkaProducer;
+import kafka.common.TopicAndPartition;
+import kafka.message.MessageAndMetadata;
 import kafka.producer.KeyedMessage;
 import kafka.serializer.StringDecoder;
 import scala.Tuple2;
@@ -55,14 +57,37 @@ public class AnalyticsEngine {
 		kafkaParams.put("spark.streaming.kafka.maxRatePerPartition", "100");
 
 		System.out.println("initiate config....");
-		HashSet<String> configTopicSet = new HashSet<String>(Arrays.asList("config".split(",")));
-		// processRuleUpdate(jssc, brokers, configTopicSet, engineManager);
+		HashSet<String> configTopicSet = new HashSet<String>(Arrays.asList("metadata_rule".split(",")));
+		processRuleUpdate(jssc, brokers, configTopicSet, engineManager);
 		System.out.println("waiting for config update....");
 
 		System.out.println("initiate messages....");
 		// Create direct kafka stream with brokers and topics
 		JavaPairInputDStream<String, String> messages = KafkaUtils.createDirectStream(jssc, String.class, String.class,
 				StringDecoder.class, StringDecoder.class, kafkaParams, topicsSet);
+
+		// Map<TopicAndPartition, Long> topicAndPartition = new HashMap<>();
+		// topicAndPartition.put(new TopicAndPartition("test-topic", 0), 1L);
+		// topicAndPartition.put(new TopicAndPartition("metadata_rule", 0), 1L);
+		//
+		// class MessageAndMetadataFunction implements
+		// Function<MessageAndMetadata<String, String>, String>
+		// {
+		//
+		// @Override
+		// public String call(MessageAndMetadata<String, String> v1)
+		// throws Exception {
+		// // nothing is printed here
+		// System.out.println("topic = " + v1.topic() + ", partition = " +
+		// v1.partition() + ",key:" +v1.key() + ",message:" + v1.message());
+		// return v1.topic();
+		// }
+		//
+		// }
+		// JavaInputDStream< String> messages = KafkaUtils.createDirectStream(jssc,
+		// String.class, String.class,
+		// StringDecoder.class, StringDecoder.class, String.class, kafkaParams,
+		// topicAndPartition, new MessageAndMetadataFunction());
 		System.out.println("Listening kafka messages....");
 		// Get the data
 		final JsonParser parser = new JsonParser();
@@ -76,6 +101,19 @@ public class AnalyticsEngine {
 				System.out.println("topic:" + topic + ",partition:" + partition + ",fromOffset:" + fromOffset
 						+ ",untilOffset:" + untilOffset);
 			});
+			rdd.collect().forEach(element -> System.out.println(element));
+			// JavaPairRDD<List<String>, Long> partitions = rdd.glom().zipWithIndex();
+			// partitions.foreach(partition -> {
+			// List<String> consumerRecord = partition._1();
+			// Long index = partition._2();
+			// System.out.println("index:" + index);
+			// consumerRecord.forEach(record -> {
+			//// String _1 = record._1();
+			//// String _2 = record._2();
+			//// System.out.println("_1:" + _1 + ", _2:" + _2);
+			// System.out.println("record:" + record);
+			// });
+			// });
 		});
 		messages.foreachRDD(new VoidFunction<JavaPairRDD<String, String>>() {
 
@@ -84,10 +122,12 @@ public class AnalyticsEngine {
 				Map<String, String> events = v1.collectAsMap();
 
 				System.out.println("New RDD call, size=" + events.size());
-				String condition = "@.d.temp>=70 || @.d.temp<=60";
-				// System.out.println("condition:" + condition);
+
 				events.forEach((k, v) -> {
-					boolean valid = Validator.getInstance().execute(v, condition);
+					String condition = engineManager.getRule("device001");
+					System.out.println("condition:" + condition);
+					JsonObject conditionJO = (JsonObject) parser.parse(condition);
+					boolean valid = Validator.getInstance().execute(v, conditionJO.getAsJsonPrimitive("condition").getAsString());
 					if (valid) {
 						System.out.println(k + ":" + v);
 						JsonObject event = (JsonObject) parser.parse(v);
@@ -209,7 +249,7 @@ public class AnalyticsEngine {
 			public String call(Tuple2<String, String> tuple2) {
 				String key = tuple2._1();
 				String value = tuple2._2();
-				System.out.println("key:" + key + ", value:" + value);
+				System.out.println("[ruleupdate]key:" + key + ", value:" + value);
 
 				engineManager.getEngine().addRule(key, value);
 
