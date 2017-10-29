@@ -1,5 +1,6 @@
-# cloud-iot-analytics-engine
+# Another Rule based Realtime Analytics on Spark
 
+Based on Spark core and Spark streaming, we provide one analytics engine using JSON path like syntax as condition expression, and custom plugable actions to trigger different responses.
 
 ## Build
 ```
@@ -29,26 +30,4 @@ You should have the following the logs as below after running the commands above
 Make sure that Kafka is running, for example, we use the docker container to run the Kafka as below.
 ```
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                                            NAMES
-a6975c6bf0c2        spotify/kafka       "supervisord -n"    3 months ago        Up 24 hours         0.0.0.0:2181->2181/tcp, 0.0.0.0:9092->9092/tcp   keen_jones
-```
-
-## Watch the Kafka messages
-```
-docker exec -i -t {kafka-container-instance} bash
-
-cd /opt/kafka_2.11-0.10.1.0/bin
-
-./kafka-topics.sh --zookeeper localhost:2181 --list
-
-./kafka-console-consumer.sh --zookeeper localhost:2181  --topic test-topic
-./kafka-console-consumer.sh --zookeeper localhost:2181  --topic metadata_rule
-./kafka-console-consumer.sh --zookeeper localhost:2181  --topic rule.output
-
-```
-
-## Start Device Simulator
-
-Use the following command to simulate the device to send the event.
-```
-java -cp /Users/xiningwang/localgit/another-rule-based-analytics-on-spark/target/SparkEngineCore-1.0-jar-with-dependencies.jar cloud.iot.ai.analytics.KafkaDataProducer
-```
+a6975c6bf0c2        spotify/kafka       "supervisord -n
