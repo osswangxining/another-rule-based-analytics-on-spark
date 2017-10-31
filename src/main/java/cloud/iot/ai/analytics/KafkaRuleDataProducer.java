@@ -17,7 +17,7 @@ public class KafkaRuleDataProducer {
 	public String get() {
 
 		JsonObject obj = new JsonObject();
-		obj.addProperty("condition", "@.d.temp>=72 || @.d.temp<=60");
+		obj.addProperty("condition", "@.d.temp>=70 || @.d.temp<=60");
 		return obj.toString();
 	}
 
